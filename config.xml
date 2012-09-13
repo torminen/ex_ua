@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget>
+    <previewjs>EX.UA</previewjs>
+	<preicon></preicon>
+    <type>user</type>
+    <cpname>James Grant</cpname>
+    <cplogo></cplogo>
+    <cpauthjs></cpauthjs>
+    <ver>1.00</ver>
+    <mgrver></mgrver>
+    <fullwidget>y</fullwidget>
+    <srcctl>y</srcctl>
+    <ticker>n</ticker>
+    <childlock>n</childlock>
+    <audiomute>n</audiomute>
+    <videomute>n</videomute>
+    <dcont>y</dcont>
+    
+	<ThumbIcon itemtype="string">Ico/ico106x87.png</ThumbIcon>
+	<BigThumbIcon itemtype="string">Ico/ico115x95.png</BigThumbIcon>
+	<ListIcon itemtype="string">Ico/ico86x70.png</ListIcon>
+	<BigListIcon itemtype="string">Ico/ico95x78.png</BigListIcon>
+	
+
+<widgetname>EX.UA</widgetname>
+    <description></description>
+    <width>960</width>
+    <height>540</height>
+    <author>
+		<name>mirashic</name>
+		<email>mirashic@yandex.ru</email>
+		<link>http://purebasic.ucoz.com/</link>
+		<organization>mirashic</organization>
+    </author>
+</widget>
