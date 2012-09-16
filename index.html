@@ -1,214 +1,180 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>EX.UA</title>
-        
-        <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/af/2.0.0/loader.js"></script>
-		<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Plugin.js'></script>
-		<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
-		<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>EX.UA</title>
+<script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/af/2.0.0/loader.js"></script>
+<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Plugin.js'></script>
+<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
+<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+
+<script language="javascript" type="text/javascript" src="Javascript/Main.js"></script>
+<script language="javascript" type="text/javascript" src="Javascript/Search.js"></script>
+<script language="javascript" type="text/javascript" src="Javascript/URLtoXML.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/Player.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/Audio.js"></script>
+<script language="javascript" type="text/javascript" src="Javascript/Display.js"></script>
 
 
-        <script language="javascript" type="text/javascript" src="Javascript/Main.js"></script>
-		<script language="javascript" type="text/javascript" src="Javascript/Search.js"></script>
-		<script language="javascript" type="text/javascript" src="Javascript/URLtoXML.js"></script>
-		<script language="javascript" type="text/javascript" src="javascript/Player.js"></script>
-        <script language="javascript" type="text/javascript" src="javascript/Audio.js"></script>
-		<script language="javascript" type="text/javascript" src="Javascript/Display.js"></script>
-		
-		
-        <link rel="stylesheet" type="text/css" href="CSS/Main.css"></link>
-				<!-- Плагины -->
-        <object id="pluginPlayer" border=0 classid="clsid:SAMSUNG-INFOLINK-PLAYER"></object>
-        <object id="pluginAudio" border=0 classid="clsid:SAMSUNG-INFOLINK-AUDIO"></object>
-	    <object id='pluginObjectNNavi' border=0 classid='clsid:SAMSUNG-INFOLINK-NNAVI' ></object><!--Стандартный индикатор громкости-->
-		<object id='pluginObjectTVMW' border=0 classid='clsid:SAMSUNG-INFOLINK-TVMW'></object>   <!--Стандартный индикатор громкости-->
-		
-    </head>
-    <OBJECT id='pluginObjectAppCommon' border=0 classid='clsid:SAMSUNG-INFOLINK-APPCOMMON' style='opacity:0.0;background-color:#000000;width:0px;height:0px;'></OBJECT>
-    <body onload="Main.onLoad();" onunload="Main.onUnload();">
-    <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/IME/ime2.js'></script>
-	  
-	  <a href="javascript:void(0);" id="anchor" onkeydown="Main.keyDown();"></a>
+<link rel="stylesheet" type="text/css" href="CSS/Main.css"></link>
+<!-- Плагины -->
+<object id="pluginPlayer" border=0 classid="clsid:SAMSUNG-INFOLINK-PLAYER"></object>
+<object id="pluginAudio" border=0 classid="clsid:SAMSUNG-INFOLINK-AUDIO"></object>
+<object id='pluginObjectNNavi' border=0 classid='clsid:SAMSUNG-INFOLINK-NNAVI'></object>
+<!--Стандартный индикатор громкости-->
+<object id='pluginObjectTVMW' border=0 classid='clsid:SAMSUNG-INFOLINK-TVMW'></object>
+<!--/Стандартный индикатор громкости-->
+</head>
+<OBJECT id='pluginObjectAppCommon' border=0 classid='clsid:SAMSUNG-INFOLINK-APPCOMMON' style='opacity: 0.0; background-color: #000000; width: 0px; height: 0px;'></OBJECT>
+<body onload="Main.onLoad();" onunload="Main.onUnload();">
+	<script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/IME/ime2.js'></script>
 
-
- 
-    <div id="main">
-
-          
-           
-
-
-			<div id="spisok">
-			<div id='janr'>Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные сериалы</div> 
-			<div id="spisok2">  
-				<div id='bloc1'></div>
-				<div id='bloc2'></div>
-				<div id='bloc3'></div>
-				<div id='bloc4'></div>
-				<div id='bloc5'></div>
-				<div id='bloc6'></div>
-
-				<div id='bloc7'></div>
-				<div id='bloc8'></div>
-				<div id='bloc9'></div>
-				<div id='bloc10'></div>
-			    <div id='bloc11'></div>
-				<div id='bloc12'></div>
-
-			    <div id='bloc13'></div>
-                <div id='bloc14'></div>
-                <div id='bloc15'></div>
-                <div id='bloc16'></div>
-                <div id='bloc17'></div>
-                <div id='bloc18'></div>	 
-		    </div>
+	<a href="javascript:void(0);" id="anchor" onkeydown="Main.keyDown();"></a>
+	<div id="main">
+		<div id="spisok">
+			<div id='janr'>Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные
+				сериалы</div>
+			<div id="spisok2">
+				<div id='bloc1' class='block'></div>
+				<div id='bloc2' class='block'></div>
+				<div id='bloc3' class='block'></div>
+				<div id='bloc4' class='block'></div>
+				<div id='bloc5' class='block'></div>
+				<div id='bloc6' class='block'></div>
+				<div id='bloc7' class='block'></div>
+				<div id='bloc8' class='block'></div>
+				<div id='bloc9' class='block'></div>
+				<div id='bloc10' class='block'></div>
+				<div id='bloc11' class='block'></div>
+				<div id='bloc12' class='block'></div>
+				<div id='bloc13' class='block'></div>
+				<div id='bloc14' class='block'></div>
+				<div id='bloc15' class='block'></div>
+				<div id='bloc16' class='block'></div>
+				<div id='bloc17' class='block'></div>
+				<div id='bloc18' class='block'></div>
 			</div>
+		</div>
 
+		<div id="playlist">
 
+			<div id="description"></div>
+			<div id="timeInfo"></div>
+			<div id="list">
+				<div id="list2">
+					<div id='str1'>Строка 1</div>
+					<div id='str2'>Строка 2</div>
+					<div id='str3'>Строка 3</div>
+					<div id='str4'>Строка 4</div>
+					<div id='str5'>Строка 5</div>
+					<div id='str6'>Строка 6</div>
+					<div id='str7'>Строка 7</div>
+					<div id='str8'>Строка 8</div>
+					<div id='str9'>Строка 9</div>
+					<div id='str10'>Строка 10</div>
+					<div id='str11'>Строка 11</div>
+					<div id='str12'>Строка 12</div>
+					<div id='str13'>Строка 13</div>
+					<div id='str14'>Строка 14</div>
+					<div id='str15'>Строка 15</div>
+					<div id='str16'>Строка 16</div>
+					<div id='str17'>Строка 17</div>
+					<div id='str18'>Строка 18</div>
+					<div id='str19'>Строка 19</div>
+					<div id='str20'>Строка 20</div>
+					<div id='str21'>Строка 21</div>
+					<div id='str22'>Строка 22</div>
+					<div id='str23'>Строка 23</div>
+					<div id='str24'>Строка 24</div>
+					<div id='str25'>Строка 25</div>
+					<div id='str26'>Строка 26</div>
+					<div id='str27'>Строка 27</div>
+					<div id='str28'>Строка 28</div>
+					<div id='str29'>Строка 29</div>
+					<div id='str30'>Строка 30</div>
+					<div id='str31'>Строка 31</div>
+					<div id='str32'>Строка 32</div>
+					<div id='str33'>Строка 33</div>
+					<div id='str34'>Строка 34</div>
+					<div id='str35'>Строка 35</div>
+					<div id='str36'>Строка 36</div>
+					<div id='str37'>Строка 37</div>
+					<div id='str38'>Строка 38</div>
+					<div id='str39'>Строка 39</div>
+					<div id='str40'>Строка 40</div>
+					<div id='str41'>Строка 41</div>
+					<div id='str42'>Строка 42</div>
+					<div id='str43'>Строка 43</div>
+					<div id='str44'>Строка 44</div>
+					<div id='str45'>Строка 45</div>
+					<div id='str46'>Строка 46</div>
+					<div id='str47'>Строка 47</div>
+					<div id='str48'>Строка 48</div>
+					<div id='str49'>Строка 49</div>
+					<div id='str50'>Строка 50</div>
+					<div id='str51'>Строка 51</div>
+					<div id='str52'>Строка 52</div>
+					<div id='str53'>Строка 53</div>
+					<div id='str54'>Строка 54</div>
+					<div id='str55'>Строка 55</div>
+					<div id='str56'>Строка 56</div>
+					<div id='str57'>Строка 57</div>
+					<div id='str58'>Строка 58</div>
+					<div id='str59'>Строка 59</div>
+					<div id='str60'>Строка 60</div>
+					<div id='str61'>Строка 61</div>
+					<div id='str62'>Строка 62</div>
+					<div id='str63'>Строка 63</div>
+					<div id='str64'>Строка 64</div>
+					<div id='str65'>Строка 65</div>
+					<div id='str66'>Строка 66</div>
+					<div id='str67'>Строка 67</div>
+					<div id='str68'>Строка 68</div>
+					<div id='str69'>Строка 69</div>
+					<div id='str70'>Строка 70</div>
+					<div id='str71'>Строка 71</div>
+					<div id='str72'>Строка 72</div>
+					<div id='str73'>Строка 73</div>
+					<div id='str74'>Строка 74</div>
+					<div id='str75'>Строка 75</div>
+					<div id='str76'>Строка 76</div>
+					<div id='str77'>Строка 77</div>
+					<div id='str78'>Строка 78</div>
+					<div id='str79'>Строка 79</div>
+					<div id='str80'>Строка 80</div>
+					<div id='str81'>Строка 81</div>
+					<div id='str82'>Строка 82</div>
+					<div id='str83'>Строка 83</div>
+					<div id='str84'>Строка 84</div>
+					<div id='str85'>Строка 85</div>
+					<div id='str86'>Строка 86</div>
+					<div id='str87'>Строка 87</div>
+					<div id='str88'>Строка 88</div>
+					<div id='str89'>Строка 89</div>
+					<div id='str90'>Строка 90</div>
+					<div id='str91'>Строка 91</div>
+					<div id='str92'>Строка 92</div>
+					<div id='str93'>Строка 93</div>
+					<div id='str94'>Строка 94</div>
+					<div id='str95'>Строка 95</div>
+					<div id='str96'>Строка 96</div>
+					<div id='str97'>Строка 97</div>
+					<div id='str98'>Строка 98</div>
+					<div id='str99'>Строка 99</div>
+					<div id='str100'>Строка 100</div>
+				</div>
+			</div>
+		</div>
 
-
-
-
-
-    <div id="playlist">
-		
-		<div id="description"></div>
-		<div id="timeInfo"></div>
-		  <div id="list">
-		    <div id="list2">
-				 <div id='str1'  >Строка 1</div>
-				 <div id='str2'  >Строка 2</div>
-				 <div id='str3'  >Строка 3</div>
-				 <div id='str4'  >Строка 4</div>
-				 <div id='str5'  >Строка 5</div>
-				 <div id='str6'  >Строка 6</div>
-				 <div id='str7'  >Строка 7</div>
-				 <div id='str8'  >Строка 8</div>
-				 <div id='str9'  >Строка 9</div>
-				 <div id='str10' >Строка 10</div>
-				 <div id='str11' >Строка 11</div>
-				 <div id='str12' >Строка 12</div>
-				 <div id='str13' >Строка 13</div>
-				 <div id='str14' >Строка 14</div>
-				 <div id='str15' >Строка 15</div>
-	 <!-- --------------------------------------- --> 
-				 <div id='str16' >Строка 16</div>
-				 <div id='str17' >Строка 17</div>
-				 <div id='str18' >Строка 18</div>
-				 <div id='str19' >Строка 19</div>
-				 <div id='str20' >Строка 20</div>
-				 <div id='str21' >Строка 21</div>
-				 <div id='str22' >Строка 22</div>
-				 <div id='str23' >Строка 23</div>
-				 <div id='str24' >Строка 24</div>
-				 <div id='str25' >Строка 25</div>
-				 <div id='str26' >Строка 26</div>
-				 <div id='str27' >Строка 27</div>
-				 <div id='str28' >Строка 28</div>
-				 <div id='str29' >Строка 29</div>
-				 <div id='str30' >Строка 30</div>
-	 <!-- --------------------------------------- -->
-				 <div id='str31' >Строка 31</div>
-				 <div id='str32' >Строка 32</div>
-				 <div id='str33' >Строка 33</div>
-				 <div id='str34' >Строка 34</div>
-				 <div id='str35' >Строка 35</div>
-				 <div id='str36' >Строка 36</div>
-				 <div id='str37' >Строка 37</div>
-				 <div id='str38' >Строка 38</div>
-				 <div id='str39' >Строка 39</div>
-				 <div id='str40' >Строка 40</div>
-				 <div id='str41' >Строка 41</div>
-				 <div id='str42' >Строка 42</div>
-				 <div id='str43' >Строка 43</div>
-				 <div id='str44' >Строка 44</div>
-				 <div id='str45' >Строка 45</div>
-	 <!-- --------------------------------------- -->
-				 <div id='str46' >Строка 46</div>
-				 <div id='str47' >Строка 47</div>
-				 <div id='str48' >Строка 48</div>
-				 <div id='str49' >Строка 49</div>
-				 <div id='str50' >Строка 50</div>
-				 <div id='str51' >Строка 51</div>
-				 <div id='str52' >Строка 52</div>
-				 <div id='str53' >Строка 53</div>
-				 <div id='str54' >Строка 54</div>
-				 <div id='str55' >Строка 55</div>
-				 <div id='str56' >Строка 56</div>
-				 <div id='str57' >Строка 57</div>
-				 <div id='str58' >Строка 58</div>
-				 <div id='str59' >Строка 59</div>
-				 <div id='str60' >Строка 60</div>
-	 <!-- --------------------------------------- -->	 
-				 <div id='str61' >Строка 61</div>
-				 <div id='str62' >Строка 62</div>
-				 <div id='str63' >Строка 63</div>
-				 <div id='str64' >Строка 64</div>
-				 <div id='str65' >Строка 65</div>
-				 <div id='str66' >Строка 66</div>
-				 <div id='str67' >Строка 67</div>
-				 <div id='str68' >Строка 68</div>
-				 <div id='str69' >Строка 69</div>
-				 <div id='str70' >Строка 70</div>
-				 <div id='str71' >Строка 71</div>
-				 <div id='str72' >Строка 72</div>
-				 <div id='str73' >Строка 73</div>
-				 <div id='str74' >Строка 74</div>
-				 <div id='str75' >Строка 75</div>
-	 <!-- --------------------------------------- -->
-				 <div id='str76' >Строка 76</div>
-				 <div id='str77' >Строка 77</div>
-				 <div id='str78' >Строка 78</div>
-				 <div id='str79' >Строка 79</div>
-				 <div id='str80' >Строка 80</div>				 
-				 <div id='str81' >Строка 81</div>
-				 <div id='str82' >Строка 82</div>
-				 <div id='str83' >Строка 83</div>
-				 <div id='str84' >Строка 84</div>
-				 <div id='str85' >Строка 85</div>
-				 <div id='str86' >Строка 86</div>
-				 <div id='str87' >Строка 87</div>
-				 <div id='str88' >Строка 88</div>
-				 <div id='str89' >Строка 89</div>
-				 <div id='str90' >Строка 90</div>
-	 <!-- --------------------------------------- -->
-				 <div id='str91' >Строка 91</div>
-				 <div id='str92' >Строка 92</div>
-				 <div id='str93' >Строка 93</div>
-				 <div id='str94' >Строка 94</div>
-				 <div id='str95' >Строка 95</div>
-				 <div id='str96' >Строка 96</div>				 
-	             <div id='str97' >Строка 97</div>
-				 <div id='str98' >Строка 98</div>
-				 <div id='str99' >Строка 99</div>
-				 <div id='str100' >Строка 100</div>
-		    </div>
-		  </div> 	 
-	  </div>
-
-
-
-
-<div id='black'></div>
-
-	   <div id="top"></div>
-	   <div id='title'>MUSIC WIDGET</div>
-             <!--форма ввода текста Поиск--->
-			<div id='search'>Поиск @ EX.UA</div>
-            <form id="plain" class="window"><input id="plainText" type="text"  size="30"   /></form>
-
-
- <div id='svecKeyHelp_IIZH'></div>
-
-
-
-
-
-
-     </div>
-
-
-    </body>
+		<div id='black'></div>
+		<div id="top"></div>
+		<div id='title'>EX.UA WIDGET</div>
+		<!--форма ввода текста Поиск--->
+		<div id='search'>Поиск @ EX.UA</div>
+		<form id="plain" class="window">
+			<input id="plainText" type="text" size="30" />
+		</form>
+		<div id='svecKeyHelp_IIZH'></div>
+	</div>
+</body>
 </html>

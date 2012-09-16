@@ -1,28 +1,23 @@
-var Audio =
-{
-    plugin : null
-}
+var Audio = {
+	plugin : null
+};
 
-Audio.init = function()
-{
-    var success = true;
-    
-    this.plugin = document.getElementById("pluginAudio");
-    
-    if (!this.plugin)
-    {
-        success = false;
-    }
+Audio.init = function() {
+	var success = true;
 
-    return success;
-}
+	this.plugin = document.getElementById("pluginAudio");
 
-Audio.setRelativeVolume = function(delta)
-{
-    this.plugin.SetVolumeWithKey(delta);
-}
+	if (!this.plugin) {
+		success = false;
+	}
 
-Audio.getVolume = function()
-{
-    return this.plugin.GetVolume();
-}
+	return success;
+};
+
+Audio.setRelativeVolume = function(delta) {
+	this.plugin.SetVolumeWithKey(delta);
+};
+
+Audio.getVolume = function() {
+	return this.plugin.GetVolume();
+};
