@@ -34,6 +34,13 @@ Player.init = function() {
 	return success;
 };
 
+Player.deinit = function()
+{
+	if (this.plugin) {
+		this.plugin.Stop();
+	}
+}
+
 Player.setWindow = function() // видео скрыто
 {
 	this.plugin.SetDisplayArea(ScreenWidth, ScreenHeight, 0, 0); // 458, 58,
@@ -184,13 +191,13 @@ Player.getState = function() // текущее состояние
 Player.skipForwardVideo = function() {
 
 	this.skipState = this.FORWARD;
-	this.plugin.JumpForward(50);
+	this.plugin.JumpForward(120);
 };
 
 Player.skipBackwardVideo = function() {
 
 	this.skipState = this.REWIND;
-	this.plugin.JumpBackward(50);
+	this.plugin.JumpBackward(120);
 };
 
 // функция таймера проигрывания трека, вызывается плагином:

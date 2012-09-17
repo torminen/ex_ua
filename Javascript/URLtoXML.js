@@ -22,6 +22,12 @@ var URLtoXML = {
 			".swf", ".mts", ".wm", ".wmx", ".wmv", ".vob", ".iso", ".f4v" ],
 };
 
+URLtoXML.deinit = function () {
+	if (this.xmlHTTP ) {
+		this.xmlHTTP.abort();
+	}
+}
+
 // обработка ссылки
 URLtoXML.Proceed = function(sURL) {
 
@@ -90,8 +96,7 @@ URLtoXML.ParseXMLData = function() {
 					index = index + 1;
 					sImg = sImg.replace("?200", "?100");
 					this.ImgDickr[index] = sImg;
-					document.getElementById("bloc" + index).innerHTML = "<img class='blockImage' id='imgst"
-							+ index + "';  src='" + sImg + "' />";
+					widgetAPI.putInnerHTML(document.getElementById("bloc" + index), "<img class='blockImage' id='imgst" + index + "';  src='" + sImg + "' />");
 				}
 				// ищем описание
 				TMPnStart = this.nStart;
@@ -124,14 +129,11 @@ URLtoXML.ParseXMLData = function() {
 			}
 
 			if (this.sName[Main.index].length > 200) {
-				document.getElementById("title").innerHTML = this.sName[Main.index]
-						.substr(0, 200)
-						+ "...";
+				widgetAPI.putInnerHTML(document.getElementById("title"), this.sName[Main.index].substr(0, 200) + "...");
 			}// название в заголовок
 			else {
-				document.getElementById("title").innerHTML = this.sName[Main.index];
+				widgetAPI.putInnerHTML(document.getElementById("title"), this.sName[Main.index]);
 			}
-			;
 			document.getElementById("imgst" + Main.index).style.borderColor = "#fe761c"; // активная
 			// строка
 
@@ -163,11 +165,9 @@ URLtoXML.ParseXMLData = function() {
 						// выводи имена в список плейлисста (обрезаем имя после
 						// 37 символа и добавляемa многоточье )
 						if (pTit.length >= 37 && index < 100) {
-							document.getElementById("str" + index).innerHTML = pTit
-									.substr(0, 37)
-									+ "...";
+							widgetAPI.putInnerHTML(document.getElementById("str" + index), pTit.substr(0, 37) + "...");
 						} else if (index < 100) {
-							document.getElementById("str" + index).innerHTML = pTit;
+							widgetAPI.putInnerHTML(document.getElementById("str" + index), pTit);
 						}
 
 						this.nStart = TMPnStart;// возвращаемa положение поиска
