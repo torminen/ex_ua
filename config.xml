@@ -3,10 +3,10 @@
     <previewjs>EX.UA</previewjs>
 	<preicon></preicon>
     <type>user</type>
-    <cpname>James Grant</cpname>
+    <cpname>torminen</cpname>
     <cplogo></cplogo>
     <cpauthjs></cpauthjs>
-    <ver>1.00</ver>
+    <ver>0.8.1</ver>
     <mgrver></mgrver>
     <fullwidget>y</fullwidget>
     <srcctl>y</srcctl>
@@ -27,9 +27,9 @@
     <width>960</width>
     <height>540</height>
     <author>
-		<name>mirashic</name>
-		<email>mirashic@yandex.ru</email>
-		<link>http://purebasic.ucoz.com/</link>
-		<organization>mirashic</organization>
+		<name>mirashic/torminen</name>
+		<email></email>
+		<link></link>
+		<organization>mirashic/torminen</organization>
     </author>
 </widget>

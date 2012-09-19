@@ -19,7 +19,7 @@ var URLtoXML = {
 	arrVideoExt : [ ".flac", ".ts", ".mp3", ".avi", ".asf", ".asx", ".3gp",
 			".3g2", ".3gp2", ".3gpp", ".flv", ".mp4", ".mp4v", ".m4v", ".m2v",
 			".m2ts", ".m2t", ".mp2v", ".mov", ".mpg", ".mpe", ".mpeg", ".mkv",
-			".swf", ".mts", ".wm", ".wmx", ".wmv", ".vob", ".iso", ".f4v" ],
+			".swf", ".mts", ".wm", ".wmx", ".wmv", ".vob", ".iso", ".f4v", "dts", "ac3"],
 };
 
 URLtoXML.deinit = function () {
