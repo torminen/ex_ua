@@ -7,14 +7,19 @@ Samsung SmartTV widget for EX.UA
 
 =====
 
-Changelog EX_UA beta 0.8.3
+Changelog EX_UA release 0.8.4
+- tv screensaver disable command added
+
+Changelog EX_UA release 0.8.3
 - new formats added to parser: ac3, dts
 
 
 TODO:
 
-1. Show text notifications system;
+- Rewind/FastForward issues
 
-2. Settings system.
+- Show text notifications system;
 
-3. Bookmark catalog pages.
+- Settings system.
+
+- Bookmark catalog pages.
