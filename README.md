@@ -1,6 +1,6 @@
 EX_UA
 
-current version 0.8.3
+current version 0.8.4
 =====
 
 Samsung SmartTV widget for EX.UA
