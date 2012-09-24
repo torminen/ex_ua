@@ -31,14 +31,11 @@ Main.onLoad = function() {
 	if (Player.init() && Audio.init()) {
 		window.onShow = Main.onShowEventTVKey; // Стандартный индикатор
 		widgetAPI.sendReadyEvent();// Сообщаем менеджеру приложений о готовности		
-		document.getElementById("anchor").focus(); // Помещение фокуса на
-		// элемент "anchor"
+		document.getElementById("anchor").focus(); // Помещение фокуса на элемент "anchor"
 		document.getElementById("playlist").style.display = "none";
 		document.getElementById("plain").style.display = "none";
 		document.getElementById("search").style.display = "none";
 		document.getElementById("black").style.display = "none";
-
-		// Search.Input();
 
 		// адрес запроса
 		this.sURL = this.janrURL + '?v=1,0&p=' + this.string + '&per=18';
@@ -64,6 +61,7 @@ Main.onShowEventTVKey = function() {
 	pluginAPI.unregistKey(tvKey.KEY_VOL_UP);
 	pluginAPI.unregistKey(tvKey.KEY_VOL_DOWN);
 	pluginAPI.unregistKey(tvKey.KEY_MUTE);
+	pluginAPI.setOffScreenSaver();
 };
 
 Main.onUnload = function() {
@@ -198,10 +196,6 @@ Main.keyDown = function() {
 				this.index = 17;
 			}
 			Main.ActivString(1);// активная строка
-		}
-
-		if (this.playlist == 1 && Player.getState() != Player.PAUSED) {
-			Player.skipForwardVideo();
 		}
 		break;
 
