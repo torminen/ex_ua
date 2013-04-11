@@ -5,6 +5,9 @@ current version 0.9.4
 
 Samsung SmartTV widget for EX.UA
 
+Download links:
+ex_ua 0.9.4: http://yadi.sk/d/b9kF71BM3rUR0
+
 =====
 Changelog EX_UA release 0.9.4
 - design changes
