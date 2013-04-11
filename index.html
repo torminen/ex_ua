@@ -2,11 +2,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>EX.UA</title>
+
+<title>EX.ua</title>
+
 <script type="text/javascript" language="javascript" src="$MANAGER_WIDGET/Common/af/2.0.0/loader.js"></script>
 <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Plugin.js'></script>
 <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/Widget.js'></script>
 <script type='text/javascript' language='javascript' src='$MANAGER_WIDGET/Common/API/TVKeyValue.js'></script>
+<script language="javascript" type="text/javascript" src="$MANAGER_WIDGET/Common/Plugin/Define.js"></script>
+<script type="text/javascript" language='javascript' src="$MANAGER_WIDGET/Common/API/CM_AVSetting.js"></script>
+<script type="text/javascript" language='javascript' src="$MANAGER_WIDGET/Common/Util/Include.js"></script>
 
 <script language="javascript" type="text/javascript" src="Javascript/Main.js"></script>
 <script language="javascript" type="text/javascript" src="Javascript/Search.js"></script>
@@ -14,16 +19,19 @@
 <script language="javascript" type="text/javascript" src="javascript/Player.js"></script>
 <script language="javascript" type="text/javascript" src="javascript/Audio.js"></script>
 <script language="javascript" type="text/javascript" src="Javascript/Display.js"></script>
-
+<!-- <script language="javascript" type="text/javascript" src="Javascript/Favorites.js"></script> -->
 
 <link rel="stylesheet" type="text/css" href="CSS/Main.css"></link>
 <!-- Плагины -->
 <object id="pluginPlayer" border=0 classid="clsid:SAMSUNG-INFOLINK-PLAYER"></object>
 <object id="pluginAudio" border=0 classid="clsid:SAMSUNG-INFOLINK-AUDIO"></object>
+<object id="pluginScreen" border=0 classid="clsid:SAMSUNG-INFOLINK-SCREEN"></object>
+<object id="pluginObjectVideo" border=0 classid="clsid:SAMSUNG-INFOLINK-VIDEO"></object>
+<object id="pluginNetwork" classid="clsid:SAMSUNG-INFOLINK-NETWORK" border="0"></object>
 <object id='pluginObjectNNavi' border=0 classid='clsid:SAMSUNG-INFOLINK-NNAVI'></object>
-<!--Стандартный индикатор громкости-->
+<object id="pluginTV" classid="clsid:SAMSUNG-INFOLINK-TV" border="0"></object>
 <object id='pluginObjectTVMW' border=0 classid='clsid:SAMSUNG-INFOLINK-TVMW'></object>
-<!--/Стандартный индикатор громкости-->
+
 </head>
 <OBJECT id='pluginObjectAppCommon' border=0 classid='clsid:SAMSUNG-INFOLINK-APPCOMMON' style='opacity: 0.0; background-color: #000000; width: 0px; height: 0px;'></OBJECT>
 <body onload="Main.onLoad();" onunload="Main.onUnload();">
@@ -31,9 +39,9 @@
 
 	<a href="javascript:void(0);" id="anchor" onkeydown="Main.keyDown();"></a>
 	<div id="main">
+
 		<div id="spisok">
-			<div id='janr'>Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные
-				сериалы</div>
+			<div id='janr'>Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные фильмы</div>
 			<div id="spisok2">
 				<div id='bloc1' class='block'></div>
 				<div id='bloc2' class='block'></div>
@@ -59,7 +67,7 @@
 		<div id="playlist">
 
 			<div id="description"></div>
-			<div id="timeInfo"></div>
+			<div id="descript"></div>
 			<div id="list">
 				<div id="list2">
 					<div id='str1'>Строка 1</div>
@@ -162,19 +170,147 @@
 					<div id='str98'>Строка 98</div>
 					<div id='str99'>Строка 99</div>
 					<div id='str100'>Строка 100</div>
+					<div id='str101'>Строка 101</div>
+					<div id='str102'>Строка 102</div>
+					<div id='str103'>Строка 103</div>
+					<div id='str104'>Строка 104</div>
+					<div id='str105'>Строка 105</div>
+					<div id='str106'>Строка 106</div>
+					<div id='str107'>Строка 107</div>
+					<div id='str108'>Строка 108</div>
+					<div id='str109'>Строка 109</div>
+					<div id='str110'>Строка 110</div>
+					<div id='str111'>Строка 111</div>
+					<div id='str112'>Строка 112</div>
+					<div id='str113'>Строка 113</div>
+					<div id='str114'>Строка 114</div>
+					<div id='str115'>Строка 115</div>
+					<div id='str116'>Строка 116</div>
+					<div id='str117'>Строка 117</div>
+					<div id='str118'>Строка 118</div>
+					<div id='str119'>Строка 119</div>
+					<div id='str120'>Строка 120</div>
+					<div id='str121'>Строка 121</div>
+					<div id='str122'>Строка 122</div>
+					<div id='str123'>Строка 123</div>
+					<div id='str124'>Строка 124</div>
+					<div id='str125'>Строка 125</div>
+					<div id='str126'>Строка 126</div>
+					<div id='str127'>Строка 127</div>
+					<div id='str128'>Строка 128</div>
+					<div id='str129'>Строка 129</div>
+					<div id='str130'>Строка 130</div>
+					<div id='str131'>Строка 131</div>
+					<div id='str132'>Строка 132</div>
+					<div id='str133'>Строка 133</div>
+					<div id='str134'>Строка 134</div>
+					<div id='str135'>Строка 135</div>
+					<div id='str136'>Строка 136</div>
+					<div id='str137'>Строка 137</div>
+					<div id='str138'>Строка 138</div>
+					<div id='str139'>Строка 139</div>
+					<div id='str140'>Строка 140</div>
+					<div id='str141'>Строка 141</div>
+					<div id='str142'>Строка 142</div>
+					<div id='str143'>Строка 143</div>
+					<div id='str144'>Строка 144</div>
+					<div id='str145'>Строка 145</div>
+					<div id='str146'>Строка 146</div>
+					<div id='str147'>Строка 147</div>
+					<div id='str148'>Строка 148</div>
+					<div id='str149'>Строка 149</div>
+					<div id='str150'>Строка 150</div>
+					<div id='str151'>Строка 151</div>
+					<div id='str152'>Строка 152</div>
+					<div id='str153'>Строка 153</div>
+					<div id='str154'>Строка 154</div>
+					<div id='str155'>Строка 155</div>
+					<div id='str156'>Строка 156</div>
+					<div id='str157'>Строка 157</div>
+					<div id='str158'>Строка 158</div>
+					<div id='str159'>Строка 159</div>
+					<div id='str160'>Строка 160</div>
+					<div id='str161'>Строка 161</div>
+					<div id='str162'>Строка 162</div>
+					<div id='str163'>Строка 163</div>
+					<div id='str164'>Строка 164</div>
+					<div id='str165'>Строка 165</div>
+					<div id='str166'>Строка 166</div>
+					<div id='str167'>Строка 167</div>
+					<div id='str168'>Строка 168</div>
+					<div id='str169'>Строка 169</div>
+					<div id='str170'>Строка 170</div>
+					<div id='str171'>Строка 171</div>
+					<div id='str172'>Строка 172</div>
+					<div id='str173'>Строка 173</div>
+					<div id='str174'>Строка 174</div>
+					<div id='str175'>Строка 175</div>
+					<div id='str176'>Строка 176</div>
+					<div id='str177'>Строка 177</div>
+					<div id='str178'>Строка 178</div>
+					<div id='str179'>Строка 179</div>
+					<div id='str180'>Строка 180</div>
+					<div id='str181'>Строка 181</div>
+					<div id='str182'>Строка 182</div>
+					<div id='str183'>Строка 183</div>
+					<div id='str184'>Строка 184</div>
+					<div id='str185'>Строка 185</div>
+					<div id='str186'>Строка 186</div>
+					<div id='str187'>Строка 187</div>
+					<div id='str188'>Строка 188</div>
+					<div id='str189'>Строка 189</div>
+					<div id='str190'>Строка 190</div>
+					<div id='str191'>Строка 191</div>
+					<div id='str192'>Строка 192</div>
+					<div id='str193'>Строка 193</div>
+					<div id='str194'>Строка 194</div>
+					<div id='str195'>Строка 195</div>
+					<div id='str196'>Строка 196</div>
+					<div id='str197'>Строка 197</div>
+					<div id='str198'>Строка 198</div>
+					<div id='str199'>Строка 199</div>
+					<div id='str200'>Строка 200</div>					
 				</div>
 			</div>
 		</div>
-
 		<div id='black'></div>
 		<div id="top"></div>
-		<div id='title'>EX.UA WIDGET</div>
+		<div id='title'>Виджет EX.ua</div>
 		<!--форма ввода текста Поиск--->
-		<div id='search'>Поиск @ EX.UA</div>
+		<div id='search'>Поиск</div>
 		<form id="plain" class="window">
 			<input id="plainText" type="text" size="30" />
 		</form>
 		<div id='svecKeyHelp_IIZH'></div>
 	</div>
+	    <div id="player" style="display:none;">
+        <div class="p_firts_line">
+            <div id="play_name"></div><div id="ch_category"></div><div id="time"></div>
+        </div>
+        <div class="p_second_line">
+            <div id="help_navi_l_player" style="">
+                <div id="screen_size"><div id="navi_button"><img src="images/buttons/psize.png"><img src="images/buttons/ud.png"></img></img></div><span id="navi_helpertext"></span></div>
+            </div>
+        </div>
+        <div class="p_third_line">
+            <div id="help_navi_player" style="">
+                <div id="but_pause" style="display:none"><div id="navi_button"><img src="images/buttons/pause.png"></img></div><span id="navi_helpertext"></span></div>
+                <div id="but_play"><div id="navi_button"><img src="images/buttons/play.png"></img></div><span id="navi_helpertext"></span></div>
+				<div id="but_rew"><img src="images/buttons/rew.png"></img></div><span id="navi_helpertext"></span>
+				<div id="but_ff"><img src="images/buttons/ff.png"></img></div><span id="navi_helpertext"></span>
+				<div id="but_psize"><img src="images/buttons/psize.png"></img></div><span id="navi_helpertext"></span>
+				<div id="but_info"><img src="images/buttons/info.png"></img></div><span id="navi_helpertext"></span>
+                <div id="navi_button"></img></div><span id="navi_helpertext"></span>
+            </div> 
+        </div>
+        <div  class="p_info_line" >
+            <div id="infoMovi" style="display:none;">
+                <div id="progressBarBG"></div><div id="progressBar"></div><div id="timeInfo">0:00:00/0:00:00</div>
+            </div>
+        </div>      
+    </div>
+        <div id="statusbar" style="display:none;"><span id="status"></span></div>
+        <div id="statusbar1" style="display:none;"><span id="status1"></span></div>
+        <div id="selectbox" style="display:none;"></div>
 </body>
 </html>

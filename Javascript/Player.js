@@ -10,7 +10,9 @@ var Player = {
 	PLAYING : 1,
 	PAUSED : 2,
 	FORWARD : 3,
-	REWIND : 4
+	REWIND : 4,
+	duration : 0,
+    current_time : 0
 };
 
 Player.init = function() {
@@ -18,11 +20,21 @@ Player.init = function() {
 
 	this.state = this.STOPPED;
 	this.plugin = document.getElementById("pluginPlayer");
+	this.mwPlugin = document.getElementById("pluginObjectTVMW");
 
-	if (!this.plugin) {
-		success = false;
-	}
-
+        if (!this.plugin )
+        {
+        success = false;
+        }
+        if (!this.mwPlugin || !this.mwPlugin.GetSource) 
+        {
+        success = false;
+        } 
+        else 
+		{
+        this.originalSource = this.mwPlugin.GetSource();
+        this.mwPlugin.SetMediaSource();
+        }
 	this.setWindow();
 
 	this.plugin.OnCurrentPlayTime = 'Player.setCurTime';
@@ -36,10 +48,11 @@ Player.init = function() {
 
 Player.deinit = function()
 {
-	if (this.plugin) {
+	if (this.plugin)
 		this.plugin.Stop();
-	}
-}
+	if(this.mwPlugin != null)
+        this.mwPlugin.SetMediaSource(this.originalSource);
+};
 
 Player.setWindow = function() // видео скрыто
 {
@@ -150,30 +163,40 @@ Player.setScreenMode = function(modesize) {
 	return result;
 };
 
-Player.playVideo = function(url) // играть
+Player.playVideo = function() // играть
 {
 	// alert(url);
 	this.state = this.PLAYING;
 	// this.setWindow();
 	this.plugin.Play(url);
+	Display.showplayer();
+	Main.setFullScreenMode();
+	document.getElementById("main").style.display = "none";
+	Player.setFullscreen();
+	this.plugin.SetDisplayArea(0, 0, ScreenWidth, ScreenHeight); 
 };
 
 Player.pauseVideo = function() // пауза
 {
 	this.state = this.PAUSED;
 	this.plugin.Pause();
+	Display.showplayer();
+	document.getElementById("but_pause").style.display="block";
+	document.getElementById("but_play").style.display="none";
 };
 
 Player.stopVideo = function() // стоп
 {
 	// Display.setTime(0);
 	if (this.state != this.STOPPED) {
-		this.state = this.STOPPED;
 		this.plugin.Stop();
-
+		this.state = this.STOPPED;
 		if (this.stopCallback) {
 			// this.stopCallback();
 		}
+		Main.setWindowMode(); 
+		document.getElementById("main").style.display = "block";
+		Display.hideplayer();
 	}
 };
 
@@ -181,6 +204,9 @@ Player.resumeVideo = function() // стоп кадр
 {
 	this.state = this.PLAYING;
 	this.plugin.Resume();
+    Display.showplayer();
+	document.getElementById("but_pause").style.display="none";
+	document.getElementById("but_play").style.display="block";
 };
 
 Player.getState = function() // текущее состояние
@@ -191,13 +217,56 @@ Player.getState = function() // текущее состояние
 Player.skipForwardVideo = function() {
 
 	this.skipState = this.FORWARD;
+	this.plugin.JumpForward(30);
+	Display.showplayer();
+};
+
+Player.skipForwardVideoFast = function() {
+
+	this.skipState = this.FORWARD;
 	this.plugin.JumpForward(120);
+	Display.showplayer();
 };
 
 Player.skipBackwardVideo = function() {
 
 	this.skipState = this.REWIND;
+	this.plugin.JumpBackward(30);
+	Display.showplayer();
+};
+
+Player.skipBackwardVideoFast = function() {
+
+	this.skipState = this.REWIND;
 	this.plugin.JumpBackward(120);
+	Display.showplayer();
+};
+
+Player.PercentJump = function(percent) 
+{
+                if(this.jump==0)
+                {
+                    this.statusmessage = percent*10 + "%";
+                    var jump_to_minutes = (this.duration*percent/10 - this.current_time)/1000;
+                                if (jump_to_minutes > 0)
+                                {
+                                    this.plugin.JumpForward(jump_to_minutes); 
+                                    this.jump=1;
+                                }
+                                else if (jump_to_minutes < 0)
+                                {
+                                    this.plugin.JumpBackward(jump_to_minutes*-1);
+                                    this.jump=1;
+
+                                }
+                                widgetAPI.putInnerHTML(Display.statusDiv,(this.statusmessage));
+                                if(this.jump==1)
+                                {
+                                    this.state = this.PAUSA;
+                                    Display.showplayer();
+                                    clearTimeout(Display.loadingshow_timer);
+                                }
+                }
 };
 
 // функция таймера проигрывания трека, вызывается плагином:

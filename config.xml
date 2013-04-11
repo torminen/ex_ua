@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget>
-    <previewjs>EX.UA</previewjs>
-	<preicon></preicon>
+    <widgetname>EX.ua</widgetname>
+	<ver>0.9.4</ver>
+	<category>Video</category>
     <type>user</type>
-    <cpname>torminen</cpname>
+	<cpname></cpname>
     <cplogo></cplogo>
     <cpauthjs></cpauthjs>
-    <ver>0.8.3</ver>
     <mgrver></mgrver>
+	<movie>y</movie>
     <fullwidget>y</fullwidget>
     <srcctl>y</srcctl>
     <ticker>n</ticker>
@@ -16,20 +17,18 @@
     <videomute>n</videomute>
     <dcont>y</dcont>
     
-	<ThumbIcon itemtype="string">Ico/ico106x87.png</ThumbIcon>
-	<BigThumbIcon itemtype="string">Ico/ico115x95.png</BigThumbIcon>
-	<ListIcon itemtype="string">Ico/ico86x70.png</ListIcon>
-	<BigListIcon itemtype="string">Ico/ico95x78.png</BigListIcon>
+	<ThumbIcon itemtype="string">Images/Icons/Ex_ua106x87.png</ThumbIcon>
+	<BigThumbIcon itemtype="string">Images/Icons/Ex_ua115x95.png</BigThumbIcon>
+	<ListIcon itemtype="string">Images/Icons/Ex_ua86x70.png</ListIcon>
+	<BigListIcon itemtype="string">Images/Icons/Ex_ua95x78.png</BigListIcon>
 	
-
-<widgetname>EX.UA</widgetname>
     <description></description>
     <width>960</width>
     <height>540</height>
     <author>
-		<name>mirashic/torminen</name>
+		<name>mirashic/torminen/JasonX</name>
 		<email></email>
-		<link></link>
-		<organization>mirashic/torminen</organization>
+		<link>www.ex.ua</link>
+		<organization>mirashic/torminen/JasonX</organization>
     </author>
 </widget>

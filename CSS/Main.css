@@ -17,18 +17,10 @@
 	height: 540px;
 	color: #c0c0c0;
 	font-size: 22px;
-	background-image: url("../images/bg.png");
+	background-image: url("../images/background.png");
 	background-color: #242424;
 	font-family: Century_Gothic;
-}
-
-#black {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 960px;
-	height: 540px;
-	background-image: url("../images/black.png");
+	z-index:100;
 }
 
 #top {
@@ -36,8 +28,19 @@
 	top: 0px;
 	left: 0px;
 	width: 960px;
-	height: 65px;
-	background-image: url("../images/top_0.png");
+	height: 60px;
+	background-image: url("../images/top.png");
+	z-index:100;
+}
+
+#svecKeyHelp_IIZH {
+	position: absolute;
+	top: 510px;
+	left: 0px;
+	width: 960px;
+	height: 30px;
+	background-image: url("../images/helpbar.png");
+	z-index:100;
 }
 
 #search {
@@ -47,38 +50,42 @@
 	width: 300px;
 	color: #c0c0c0;
 	font-size: 34px;
+	z-index:110;
 }
 
 #plain {
 	position: absolute;
 	top: 15px;
-	left: 50px;
+	left: 165px;
 	width: 291px;
 	height: 29px;
 	background-image: url("../images/text_input.png");;
+	z-index:110;
 }
 
 #plainText {
 	position: absolute;
 	top: 2px;
 	left: 5px;
-	height: 22px;
+	height: 25px;
 	width: 234px;
 	background-color: #1c1c1c;
 	color: #BBBBBB;
-	font-size: 22px;
+	font-size: 19px;
 	font-family: Century_Gothic;
+	z-index:110;
 }
 
 #title {
 	position: absolute;
-	left: 40px;
+	left: 165px;
 	top: 5px;
-	width: 880px;
+	height: 50px;
+	width: 800px;
 	color: #c0c0c0;
-	font-size: 20px;
-	font-family: Verdana, sans-serif;
-	font-weight: bold;
+	font-size: 18px;
+	font-family: Times New Roman, Times, serif;
+	z-index:110;
 }
 
 #janr {
@@ -101,9 +108,9 @@
 
 #list {
 	position: absolute;
-	left: 25px;
+	left: 15px;
 	top: 70px;
-	width: 510px;
+	width: 555px;
 	height: 421px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -113,31 +120,29 @@
 	position: absolute;
 	left: 0px;
 	top: 0px;
-	width: 3000px;
-	height: 2000px;
-}
-
-#timeInfo {
-	position: absolute;
-	left: 600px;
-	top: 70px;
-	width: 500px;
-	height: 50px;
-	font-size: 38px;
+	width: 6000px;
+	height: 4000px;
 }
 
 #description {
 	position: absolute;
 	left: 550px;
-	top: 120px;
+	top: 70px;
 	width: 400px;
-	height: 400px;
-	color: #c0c0c0;
-	font-size: 22px;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	height: 435px;
+	font-size: 16px;
+
 }
+
+#descript {
+	position: absolute;
+	left: 545px;
+	top: 65px;
+	width: 410px;
+	height: 440px;
+	background-image: url("../images/desc.png");;
+}
+
 
 #spisok {
 	position: absolute;
@@ -174,4 +179,136 @@
 	box-shadow: 0 0 13px black;
 	max-width: 120px;
 	max-height: 120px;
+}
+
+#navi_helpertext
+{
+	margin-top: 14px;
+	float:left;
+	padding-right:12px;
+	padding-left:2px;
+}
+
+#player
+{
+    position:absolute;
+	top:480px; 
+              width: 960px; 
+	height:60px;		
+	background-image: url("../images/player.png");
+
+}
+
+#play_name
+{
+	top:24px;
+	height:20px;
+	width:780px; overflow:hidden;
+    color : #FFFFFF;
+	margin-left:2%;
+	float:left;font-size:16px;
+}
+
+#player .p_firts_line
+{
+	height:px;
+	padding-top:8px;
+	width:100%;
+}
+
+#player .p_second_line
+{
+	height:0px;
+	padding-top:31px;
+	width:100%;
+}
+
+#player .p_third_line
+{
+        position:absolute;
+	top:20px; 
+        width:100%;
+}
+
+#but_play
+{
+	position:absolute;
+	left:20px;top:12px;
+}
+#but_pause
+{
+	position:absolute;
+	left:20px;top:12px;
+}
+
+#but_rew
+{
+	position:absolute;
+	left:50px;top:12px;
+}
+
+#but_ff
+{
+	position:absolute;
+	left:80px;top:12px;
+}
+
+#but_psize
+{
+	position:absolute;
+	left:877px;top:12px;
+}
+
+#but_info
+{
+	position:absolute;
+	left:915px;top:12px;
+}
+
+#timeInfo
+{
+	position:absolute;
+	left: 800px; top:7px;
+	color : #FFFFFF;
+	width: 160px;
+	text-align:center;
+	font-size:16px; 
+}
+
+#time
+{
+	height:32px;
+	float:left;
+	padding-left: 32%;
+        width: 8%;font-size:18px;
+	color : #FFFFFF;
+	z-index:100;
+}
+
+#help_navi_player
+{
+	height:60px;
+	width:85%;margin-left:5px;
+	float:left;
+}
+
+#infoMovi
+{
+width:640px; 	
+}
+
+#progressBarBG
+{
+	position:absolute;
+	left:160px; top:0x;
+	width:640px; height:15px;overflow:hidden;
+	background-image:url("../images/progressBarBG.png");
+}
+
+#progressBar
+{
+	position:absolute;
+	left: 160px; top:0x;
+	width:640px; height:15px;
+	background-image:url("../images/progressBar.png");
 }

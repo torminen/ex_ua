@@ -46,11 +46,10 @@ Search.onEnter = function(string) {
 	$('#svecKeyHelp_IIZH').sfKeyHelp({
 		'TOOLS' : 'Поиск',
 		'NUMBER' : 'Категория',
-		'INFO' : 'Видео',
 		'UPDOWN' : 'Позиция',
 		'leftright' : 'Позиция',
 		'Enter' : 'Выбор',
-		'return' : 'Вернуться'
+		'return' : 'Назад'
 	});
 };
 
@@ -66,11 +65,9 @@ Search.textobjKeyFunc = function(keyCode) {// возврат при нажати
 	$('#svecKeyHelp_IIZH').sfKeyHelp({
 		'TOOLS' : 'Поиск',
 		'NUMBER' : 'Категория',
-		'INFO' : 'Видео',
 		'UPDOWN' : 'Позиция',
 		'leftright' : 'Позиция',
 		'Enter' : 'Выбор',
-		'return' : 'Вернуться'
 	});
 };
 

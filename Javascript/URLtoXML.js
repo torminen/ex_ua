@@ -13,20 +13,32 @@ var URLtoXML = {
 	UrlSt : new Array(), // адрес
 	ImgDickr : new Array(), // картинка
 	pName : new Array(),
+	pDes : new Array(),
+	qDes : new Array(),
+	
 
 	pUrlSt : new Array(),
 
-	arrVideoExt : [ ".flac", ".ts", ".mp3", ".avi", ".asf", ".asx", ".3gp",
-			".3g2", ".3gp2", ".3gpp", ".flv", ".mp4", ".mp4v", ".m4v", ".m2v",
-			".m2ts", ".m2t", ".mp2v", ".mov", ".mpg", ".mpe", ".mpeg", ".mkv",
-			".swf", ".mts", ".wm", ".wmx", ".wmv", ".vob", ".iso", ".f4v", "dts", "ac3"],
+	arrVideoExt : [".avi", ".asf", ".asx", ".3gp",".3g2", ".3gp2", ".3gpp", ".flv", ".mp4", ".mp4v", ".m4v", ".m2v",".m2ts", ".m2t", ".mp2v", ".mov", ".mpg", ".mpe", ".mpeg", ".mkv",".swf", ".mts", ".wm", ".wmx", ".wmv", ".vob", ".iso", ".f4v", ".ts", ".flac", ".mp3", ".dts", ".ac3"],
+   
+   //двумерный массив строк, которые нужно заменить в тексте - первый вариант на второй
+   arrReplWordsDesc : [["h1>", "b>"], ["</*p>","<br>"], ["\\s*<br>\\s*<br>", "<br>"], ["</*p>","</*p>"]],
+   arrReplWordsFrwd : [["&", "&amp;"], ["<", "&lt;"], [">", "&gt;"], ["'", "&apos;"], ["\"", "&quot;"]],
+   //массив строк-масок регулярных выражений, подлежащих удалению из текста
+   arrDelWords : ["<\\s*a[^<^>]*>", "<\\s*/\\s*a\\s*>", "<\\s*/*\\s*span[^>]*>", "<\\s*/*\\s*div[^>]*>", "<\\s*/*\\s*img[^>]*>", "<\\s*/*\\s*strong[^>]*>"],
+   prefixTAG : "<a href='",
+   endedTAG : "'>",
+
 };
+
+
+
 
 URLtoXML.deinit = function () {
 	if (this.xmlHTTP ) {
 		this.xmlHTTP.abort();
 	}
-}
+};
 
 // обработка ссылки
 URLtoXML.Proceed = function(sURL) {
@@ -41,16 +53,12 @@ URLtoXML.Proceed = function(sURL) {
 
 		this.xmlHTTP.onreadystatechange = function() {
 			if (URLtoXML.xmlHTTP.readyState == 4) {
-				URLtoXML.outTXT = URLtoXML.ParseXMLData(); // генерим конечный
-				// плейлист на
-				// основании
-				// полученных данных
+				URLtoXML.outTXT = URLtoXML.ParseXMLData(); // генерим конечный плейлист на основании полученных данных
 			}
 		};
 
 		this.xmlHTTP
-				.setRequestHeader("User-Agent",
-						"Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
+				.setRequestHeader("User-Agent","Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
 		this.xmlHTTP.send();
 	}
 };
@@ -61,6 +69,7 @@ URLtoXML.ParseXMLData = function() {
 	var index = 0; // индекс масcива
 	var index2 = 0; // индекс масcива
 	var index3 = 0; // индекс масcива
+	var index4 = 0; // индекс масcива
 
 	if (this.xmlHTTP.status == 200)// если ответ от сервера корректный
 	{
@@ -89,30 +98,47 @@ URLtoXML.ParseXMLData = function() {
 				// ищем картинку без сдвига счетчика
 				TMPnStart = this.nStart;
 				sImg = URLtoXML.FindVal(sOut, this.nStart, "<img src='", "'");
-				this.nStart = TMPnStart;// возвращаем значение глобального
-				// поиска
+				this.nStart = TMPnStart;// возвращаем значение глобального поиска
 
 				if (sImg != "" && sImg.length >= 25) {
 					index = index + 1;
-					sImg = sImg.replace("?200", "?100");
+					sImg = sImg.replace("?100", "?100");
 					this.ImgDickr[index] = sImg;
-					widgetAPI.putInnerHTML(document.getElementById("bloc" + index), "<img class='blockImage' id='imgst" + index + "';  src='" + sImg + "' />");
+					widgetAPI.putInnerHTML(document.getElementById("bloc" + index), "<img class='blockImage' id='imgst" + index +  "';  src='" + sImg + "' />");
 				}
 				// ищем описание
 				TMPnStart = this.nStart;
 				sDes = URLtoXML.FindVal(sOut, this.nStart, "", "</td>");
-				this.nStart = TMPnStart;// возвращаем значение глобального
-				// поиска
+				this.nStart = TMPnStart;// возвращаем значение глобального поиска
 
 				// Если нашли описание
-				if (sDes != "") {
+				if (sDes != "")
+				
+				// ищем описание
+				TMPnStart = this.nStart;
+				nDes = URLtoXML.FindVal(sOut, this.nStart, "", "</td>");
+				this.nStart = TMPnStart;// возвращаем значение глобального поиска
 
+				// Если нашли описание
+				if (nDes != "")
+				{
+					nDes = this.prefixTAG + sUrl + this.endedTAG + nDes;
+					nDes =  URLtoXML.ReplWords(nDes, this.arrReplWordsDesc);
+					nDes = URLtoXML.DelWords(nDes);
+					nDes = URLtoXML.DelTrash(nDes);
+					{
+						index4 = index4 + 1; // индекс масива
+						this.pDes[index4] = nDes; // заносим заголовок в масив
+
+					}
+				}
+					{
+					// возвращаемa положение поиска
 					// Ищем заголовок в описании
 					TMPnStart = this.nStart;
 					sTit = URLtoXML.FindVal(sDes, 0, "alt='", "'></a>");
 
-					this.nStart = TMPnStart; // возвращаем значение
-					// глобального поиска
+					this.nStart = TMPnStart; // возвращаем значение глобального поиска
 					// Если нашли заголовок иссключаемa лишнее
 					if (sTit != ""
 							&& sTit.indexOf('EX') == -1
@@ -123,19 +149,19 @@ URLtoXML.ParseXMLData = function() {
 
 						index2 = index2 + 1; // индекс масива
 						this.sName[index2] = sTit; // заносим заголовок в масив
+							
 					}
 				}
-
 			}
 
-			if (this.sName[Main.index].length > 200) {
-				widgetAPI.putInnerHTML(document.getElementById("title"), this.sName[Main.index].substr(0, 200) + "...");
+			if (this.sName[Main.index].length > 180) {
+				widgetAPI.putInnerHTML(document.getElementById("title"), this.sName[Main.index].substr(0, 180) + "...");
 			}// название в заголовок
 			else {
 				widgetAPI.putInnerHTML(document.getElementById("title"), this.sName[Main.index]);
 			}
-			document.getElementById("imgst" + Main.index).style.borderColor = "#fe761c"; // активная
-			// строка
+			document.getElementById("imgst" + Main.index).style.borderColor = "#3399FF"; // активная строка
+			
 
 		} else if (Main.playlist == 1) {
 
@@ -150,28 +176,26 @@ URLtoXML.ParseXMLData = function() {
 
 					if (sUrl.length != 0 && sUrl.indexOf(wrd) >= 0) {
 
-						TMPnStart = this.nStart; // возвращаемa положение
-						// поиска
-						// находимa идентификатор адреса стрима
+						TMPnStart = this.nStart; // возвращаемa положение поиска
+						// находим идентификатор адреса стрима
 						pUrl = URLtoXML.FindVal(sUrl, 0, "", "'");
 						index = index + 1;
-						// приводимa адрес в нормальный вид
+						// приводим адрес в нормальный вид
 						this.pUrlSt[index] = "http://www.ex.ua/get/" + pUrl;
 
 						// ищем имени файлов
 						pTit = URLtoXML.FindVal(sUrl, 0, "title='", "'");
 						this.pName[index] = pTit;
 
-						// выводи имена в список плейлисста (обрезаем имя после
-						// 37 символа и добавляемa многоточье )
-						if (pTit.length >= 37 && index < 100) {
-							widgetAPI.putInnerHTML(document.getElementById("str" + index), pTit.substr(0, 37) + "...");
-						} else if (index < 100) {
+						// выводи имена в список плейлисста (обрезаем имя после 40 символа и добавляемa многоточье )
+						if (pTit.length >= 40 && index < 200) {
+							widgetAPI.putInnerHTML(document.getElementById("str" + index), pTit.substr(0, 40) + "...");
+						} else if (index < 200) {
 							widgetAPI.putInnerHTML(document.getElementById("str" + index), pTit);
 						}
-
-						this.nStart = TMPnStart;// возвращаемa положение поиска
+						this.nStart = TMPnStart;
 					}
+
 				}
 
 			}
@@ -179,6 +203,7 @@ URLtoXML.ParseXMLData = function() {
 	}
 
 };
+
 
 // поиск значения на странице и вычленение его
 URLtoXML.FindVal = function(sOut, nBeg, keyBVal, keyEVal) {
@@ -219,6 +244,39 @@ URLtoXML.DelTrash = function(str) {
 		str = str.replace(new RegExp("  ", 'gim'), " ");
 	}
 	return URLtoXML.trim(str);
+};
+
+//удаление исключенных слов из результата
+URLtoXML.DelWords = function(sVal){
+var wrd, sRes;
+
+    sRes = sVal;
+    //удаляем из входной строки все встречающиеся в массиве исключений слова
+    for (var i in this.arrDelWords){
+       //слово из массива
+       wrd = this.arrDelWords[i];
+       sRes = sRes.replace(new RegExp(wrd, 'gim'), "");
+    }
+    
+    //возвращаем результат
+    return sRes;
+};
+
+//замена слов в результате по массиву замен
+URLtoXML.ReplWords = function(sVal, arrRepl){
+var wrd, sRes;
+
+    sRes = sVal;
+    //идем по внешнему массиву и выдергиваем слова поиска
+    for (var i in arrRepl){
+       //искомое слово из массива - первый элемент массива
+       wrd = arrRepl[i][0];
+       //заменяем в выходной строке искомое слово на нужный вариант из справочника - второй элемент массива
+       sRes = sRes.replace(new RegExp(wrd, 'gim'), arrRepl[i][1]);
+    }
+    
+    //возвращаем результат
+    return sRes;
 };
 
 // удаляемa пробелы в конце и в начале

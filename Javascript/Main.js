@@ -6,8 +6,7 @@ var Main = {
 	mode : 0, // состояние полноэкранного режима
 	WINDOW : 0,
 	FULLSCREEN : 1,
-	currentFSMode : 3, // тип полноэкранного режима (по умолчанию 16х9 без
-	// кропов)
+	currentFSMode : 1, // тип полноэкранного режима
 
 	sURL : "", // адрес страниы альбома
 
@@ -18,9 +17,18 @@ var Main = {
 	playlist : 0,
 	sta : 0, // пауза или играть с начала
 
-	janrURL : "http://www.ex.ua/ru/video/foreign_series",
+	janrURL : "http://www.ex.ua/ru/video/foreign",
 	search : "?", // search : "?", search : "'>",
 	POISK : 0,
+	
+	TVPlugin : 0,
+	Audio : 0,
+	audio_output_device : 0,
+	hardware : 0,
+	hardware_type : 0,
+	serieC : false,
+	serieE : false,
+	serieB : false,
 };
 
 var b = 1; // индекс активной строки
@@ -28,7 +36,24 @@ var c = 1; // индекс прошлой активной строки
 var url = ""; // адрес стрима файла mp3
 
 Main.onLoad = function() {
-	if (Player.init() && Audio.init()) {
+	
+	this.Audio = document.getElementById('pluginAudio');
+	this.audio_output_device = this.Audio.GetOutputDevice();
+	this.TVPlugin = document.getElementById("pluginTV");
+	this.hardware_type = this.TVPlugin.GetProductType();
+	this.hardware = this.TVPlugin.GetProductCode(1);
+	if(this.hardware.indexOf("C")>0){
+		Main.serieC = true;		
+	} else {
+	if (this.hardware.indexOf("E") > 1 || (this.hardware.indexOf("C") < 0 && this.hardware.indexOf("D") < 0)) {
+		Main.serieE = true;
+		};
+	};	
+	if (this.hardware.indexOf("B") > 1) {
+		Main.serieB = true;
+		}			
+		
+	if (Player.init() && Audio.init() && Display.init()) {
 		window.onShow = Main.onShowEventTVKey; // Стандартный индикатор
 		widgetAPI.sendReadyEvent();// Сообщаем менеджеру приложений о готовности		
 		document.getElementById("anchor").focus(); // Помещение фокуса на элемент "anchor"
@@ -46,17 +71,17 @@ Main.onLoad = function() {
 		$('#svecKeyHelp_IIZH').sfKeyHelp({
 			'TOOLS' : 'Поиск',
 			'NUMBER' : 'Категория',
-			'INFO' : 'Видео',
 			'UPDOWN' : 'Позиция',
 			'leftright' : 'Позиция',
 			'Enter' : 'Выбор',
-			'return' : 'Вернуться'
+			'Exit' : 'Выход',
 		});
-	}
+	};
 };
 
 // Стандартный индикатор громкости
 Main.onShowEventTVKey = function() {
+ if(Main.serieC==false)
 	pluginAPI.SetBannerState(1);
 	pluginAPI.unregistKey(tvKey.KEY_VOL_UP);
 	pluginAPI.unregistKey(tvKey.KEY_VOL_DOWN);
@@ -77,6 +102,7 @@ Main.keyDown = function() {
 			document.getElementById("title").style.display = "none";
 			document.getElementById("janr").style.display = "none";
 
+
 			document.getElementById("search").style.display = "block";
 			document.getElementById("plain").style.display = "block";
 			document.getElementById("black").style.display = "block";
@@ -86,52 +112,73 @@ Main.keyDown = function() {
 
 		break;
 	case tvKey.KEY_1:
-		Main.NewJanr("http://www.ex.ua/ru/video/documentary",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Документальное кино");
-		break;
-	case tvKey.KEY_2:
-		Main.NewJanr("http://www.ex.ua/view/3",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Mузыка");
-		break;
-	case tvKey.KEY_3:
+	Player.PercentJump(1);
 		Main.NewJanr("http://www.ex.ua/ru/video/foreign",
 				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные фильмы");
 		break;
-	case tvKey.KEY_4:
+	case tvKey.KEY_2:
+	Player.PercentJump(2);
 		Main.NewJanr("http://www.ex.ua/ru/video/foreign_series",
 				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные сериалы");
+		break;
+	case tvKey.KEY_3:
+		Main.NewJanr("http://www.ex.ua/ru/video/our",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Наше кино");
+		break;
+	case tvKey.KEY_4:
+		Main.NewJanr("http://www.ex.ua/ru/video/our_series",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Наши сериалы");
 		break;
 	case tvKey.KEY_5:
 		Main.NewJanr("http://www.ex.ua/ru/video/cartoon",
 				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Мультфильмы");
 		break;
 	case tvKey.KEY_6:
-		Main.NewJanr("http://www.ex.ua/ru/video/clip",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Клипы");
+		Main.NewJanr("http://www.ex.ua/ru/video/anime",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Аниме");
 		break;
 	case tvKey.KEY_7:
-		Main.NewJanr("http://www.ex.ua/ru/video/concert",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Концерты");
+		Main.NewJanr("http://www.ex.ua/ru/video/documentary",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Документальное");
 		break;
 	case tvKey.KEY_8:
-		Main.NewJanr("http://www.ex.ua/ru/video/our_series",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Наши сериалы");
-		break;
-	case tvKey.KEY_9:
-		Main.NewJanr("http://www.ex.ua/ru/video/our",
-				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Наше");
-		break;
-	case tvKey.KEY_0:
 		Main.NewJanr("http://www.ex.ua/ru/video/show",
 				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Шоу и Передачи");
 		break;
-
-	case tvKey.KEY_INFO: // устанавливаемa директорию на /dtv/usb/sda1/
-		this.toggleMode(); // выбор полноэкранного режима
+	case tvKey.KEY_9:
+		Main.NewJanr("http://www.ex.ua/ru/video/sport",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Спорт");
+		break;
+	case tvKey.KEY_0:
+		Main.NewJanr("http://www.ex.ua/ru/video/trailer",
+				"Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Трейлеры");
 		break;
 
-	case tvKey.KEY_RED: // переключение типа полноэкранного режима (циклично от
-		// 1 до 5, начальное значение 3)
+	case tvKey.KEY_INFO:
+		Display.showplayer();
+		break;
+		
+	case tvKey.KEY_RED:
+//		Favorites.open();
+		break;
+		
+	case tvKey.KEY_YELLOW:
+//		Favorites.save();
+		break;
+		
+	case tvKey.KEY_BLUE: // переключение типа полноэкранного режима (циклично от
+		// 1 до 5, начальное значение 2)
+		if (this.mode == this.WINDOW) { // не переключаем в свернутом режиме
+			break;
+		}
+		this.currentFSMode = (this.currentFSMode < 5) ? this.currentFSMode + 1
+				: 1;
+
+		Player.setScreenMode(this.currentFSMode);
+		break;
+		
+	case tvKey.KEY_ASPECT: // переключение типа полноэкранного режима (циклично от
+		// 1 до 5, начальное значение 2)
 		if (this.mode == this.WINDOW) { // не переключаем в свернутом режиме
 			break;
 		}
@@ -173,33 +220,43 @@ Main.keyDown = function() {
 		$('#svecKeyHelp_IIZH').sfKeyHelp({
 			'TOOLS' : 'Поиск',
 			'NUMBER' : 'Категория',
-			'INFO' : 'Видео',
 			'UPDOWN' : 'Позиция',
 			'leftright' : 'Позиция',
-			'Enter' : 'Выбор',
-			'return' : 'Вернуться'
+			'Enter' : 'Выбор'
 		});
 		break;
 
 	case tvKey.KEY_LEFT: // лево
 		if (this.playlist == 0) {
 			if (this.index == 1) {
-				this.index = 2;
+				this.index = Main.NewString(0, -1) ? 18 : 1;
+				Main.ActivString(0);
 			}
-			Main.ActivString(-1);// активная строка
+			else {
+				Main.ActivString(-1);
+			}
 		}
 		break;
 
 	case tvKey.KEY_RIGHT: // право
 		if (this.playlist == 0) {
 			if (this.index == 18) {
-				this.index = 17;
+				this.index = 1;
+				Main.NewString(0, 1);
+				Main.ActivString(0);
 			}
-			Main.ActivString(1);// активная строка
+			else {
+				Main.ActivString(1);
+			}
 		}
 		break;
 
 	case tvKey.KEY_UP:
+		if (Player.getState() == Player.PLAYING && this.mode == this.FULLSCREEN) {
+			Player.skipForwardVideoFast();
+			break;
+		}
+		
 		if (this.playlist == 0) {
 			this.smeh = -6;
 			if (this.index == 1 || this.index == 2 || this.index == 3
@@ -213,6 +270,11 @@ Main.keyDown = function() {
 		break;
 
 	case tvKey.KEY_DOWN:
+		if (Player.getState() == Player.PLAYING && this.mode == this.FULLSCREEN) {
+			Player.skipBackwardVideoFast();
+			break;
+		}
+		
 		if (this.playlist == 0) {
 			this.smeh = 6;
 			if (this.index == 13 || this.index == 14 || this.index == 15
@@ -231,7 +293,7 @@ Main.keyDown = function() {
 		if (this.playlist == 0) {
 			this.playlist = 1;
 			Main.handleActiv();
-			for ( var h = 1; h <= 100; h++) {
+			for ( var h = 1; h <= 200; h++) {
 				widgetAPI.putInnerHTML(document.getElementById("str" + h), "");
 			}
 
@@ -240,29 +302,28 @@ Main.keyDown = function() {
 			URLtoXML.Proceed(this.sURL);
 			document.getElementById("spisok").style.display = "none";
 			document.getElementById("playlist").style.display = "block";
+			document.getElementById("descript").style.display = "block";
 			widgetAPI.putInnerHTML(document.getElementById("description"),
-				"<img style='border-style: solid; border-width:10px; border-color:#cccccc; margin:10px; width:250px; height: 250px; border-radius:5px; box-shadow:0 0 13px black;' src='"
-					+ URLtoXML.ImgDickr[this.index].replace("?100", "200")
-					+ "' >");
+				"<img style='border-style: solid; border-width:10px; border-color:#3399FF; margin:10px; max-width: 200px; max-height: 200px; border-radius:5px; box-shadow:0 0 13px black; 'src='"
+					+ URLtoXML.ImgDickr[this.index].replace("?100", "100")
+					+ "max-width: 200px; max-height: 200px; ' align='left'"
+					+ URLtoXML.pDes[this.index]);
 		}
 		else if (this.playlist == 1) {
 			this.sta = 1;
 			url = URLtoXML.pUrlSt[b];
 			Main.handlePlayKey(url);
 			widgetAPI.putInnerHTML(document.getElementById("description"),
-				"<img style='border-style: solid; border-width:10px; border-color:#cccccc; margin:10px; width:250px; height: 250px; border-radius:5px; box-shadow:0 0 13px black;' src='"
-					+ URLtoXML.ImgDickr[this.index].replace("?100", "200")
-					+ "' >"
-					+ "<img style='margin-bottom:17px; margin-left:-10px; width:67px;' src='images/vinil.png' ><br>" + URLtoXML.pName[b]);
+				"<img style='border-style: solid; border-width:10px; border-color:#3399FF; margin:10px; max-width: 200px; max-height: 200px;  border-radius:5px; box-shadow:0 0 13px black;' src='"
+					+ URLtoXML.ImgDickr[this.index].replace("?100", "100")
+					+ "max-width: 200px; max-height: 200px; ' align='left'"
+					+ URLtoXML.pDes[this.index]);
 		}
 		$('#svecKeyHelp_IIZH').sfKeyHelp({
-			'TOOLS' : 'Поиск',
-			'INFO' : 'Видео',
-			'RED' : 'Формат',
+			'BLUE' : 'Формат',
 			'UPDOWN' : 'Позиция',
-			'leftright' : 'Перемотка',
 			'Enter' : 'Выбор',
-			'return' : 'Вернуться'
+			'return' : 'Назад'
 		});
 		break;
 
@@ -282,8 +343,8 @@ Main.keyDown = function() {
 
 	}
 	
-	if (URLtoXML.sName[this.index].length > 200) {
-		widgetAPI.putInnerHTML(document.getElementById("title"), URLtoXML.sName[this.index].substr(0, 200) + "...");
+	if (URLtoXML.sName[this.index].length > 180) {
+		widgetAPI.putInnerHTML(document.getElementById("title"), URLtoXML.sName[this.index].substr(0, 180) + "...");
 	}// название в заголовок
 	else {
 		widgetAPI.putInnerHTML(document.getElementById("title"), URLtoXML.sName[this.index]);
@@ -299,12 +360,14 @@ Main.NewString = function(per, a) {
 	if (this.string < 0) {// верхний предел
 		this.string = 0;
 		this.smeh = 0;
+		return 0;
 	} else {
 		URLtoXML.xmlHTTP = null;
 		this.sURL = this.janrURL + '?v=1,0&p=' + this.string + '&per=18'; // жанр
 		// +
 		// страница
 		URLtoXML.Proceed(this.sURL);
+		return 1;
 	}
 };
 // активная строка
@@ -312,7 +375,7 @@ Main.ActivString = function(smeh) {
 	this.smeh = smeh;
 	document.getElementById("imgst" + this.index).style.borderColor = "#e9e9e9";
 	this.index = this.index + this.smeh;
-	document.getElementById("imgst" + this.index).style.borderColor = "#fe761c";
+	document.getElementById("imgst" + this.index).style.borderColor = "#3399FF";
 };
 
 Main.ListTop = function() { // смещение списка по достижению пределов
@@ -357,6 +420,55 @@ Main.ListTop = function() { // смещение списка по достиже
 	if (b == 90) {
 		document.getElementById("list2").style.top = "-2105px";
 	} // переключение списка вниз 6
+	
+	if (b == 106) {
+		document.getElementById("list2").style.top = "-2947px";
+	} // переключение списка вверх 7
+	if (b == 105) {
+		document.getElementById("list2").style.top = "-2526px";
+	} // переключение списка вниз 7
+
+	if (b == 121) {
+		document.getElementById("list2").style.top = "-3368px";
+	} // переключение списка вверх 8
+	if (b == 120) {
+		document.getElementById("list2").style.top = "-2947px";
+	} // переключение списка вниз 8
+
+	if (b == 136) {
+		document.getElementById("list2").style.top = "-3789px";
+	} // переключение списка вверх 9
+	if (b == 135) {
+		document.getElementById("list2").style.top = "-3368px";
+	} // переключение списка вниз 9
+
+	if (b == 151) {
+		document.getElementById("list2").style.top = "-4210px";
+	} // переключение списка вверх 10
+	if (b == 150) {
+		document.getElementById("list2").style.top = "-3789px";
+	} // переключение списка вниз 10
+
+	if (b == 166) {
+		document.getElementById("list2").style.top = "-4631px";
+	} // переключение списка вверх 11
+	if (b == 165) {
+		document.getElementById("list2").style.top = "-4210px";
+	} // переключение списка вниз 11
+
+	if (b == 181) {
+		document.getElementById("list2").style.top = "-5052px";
+	} // переключение списка вверх 12
+	if (b == 180) {
+		document.getElementById("list2").style.top = "-4631px";
+	} // переключение списка вниз 12
+	
+	if (b == 196) {
+		document.getElementById("list2").style.top = "-5473px";
+	} // переключение списка вверх 12
+	if (b == 195) {
+		document.getElementById("list2").style.top = "-5052px";
+	} // переключение списка вниз 12
 };
 
 Main.handlePauseKey = function() {
@@ -379,16 +491,16 @@ Main.handleActiv = function() {
 	// пасивный
 	b = 1;
 	c = 1;
-	document.getElementById("str" + b).style.color = "#fe761c"; // активная
+	document.getElementById("str" + b).style.color = "#3399FF"; // активная
 	// строка
 };
 
 Main.selectNextVideo = function() {
-	if (b == 100) {
-		b = 99;
+	if (b == 200) {
+		b = 199;
 	} // предел max
-	b = b + 1;
-	document.getElementById("str" + b).style.color = "#fe761c"; // активная
+	b++;
+	document.getElementById("str" + b).style.color = "#3399FF"; // активная
 	// строка
 	c = b - 1;
 	document.getElementById("str" + c).style.color = "#c0c0c0"; // возвращение
@@ -403,7 +515,7 @@ Main.selectUpVideo = function() {
 		b = 2;
 	} // предел min
 	b = b - 1;
-	document.getElementById("str" + b).style.color = "#fe761c"; // активная
+	document.getElementById("str" + b).style.color = "#3399FF"; // активная
 	// строка
 	c = b + 1;
 	document.getElementById("str" + c).style.color = "#c0c0c0"; // возвращение
@@ -430,13 +542,12 @@ Main.handlePlayKey = function(url) {
 		break;
 	}
 	widgetAPI.putInnerHTML(document.getElementById("description"),
-		"<img style='border-style: solid; border-width:10px; border-color:#cccccc; margin:10px; width:250px; height: 250px; border-radius:5px; box-shadow:0 0 13px black;' src='"
-			+ URLtoXML.ImgDickr[this.index].replace("?100", "200")
-			+ "' >"
-			+ "<img style='margin-bottom:17px; margin-left:-10px; width:67px;' src='images/vinil.png' ><br>"
-			+ URLtoXML.pName[b]
+		"<img style='border-style: solid; border-width:10px; border-color:#3399FF; margin:10px; max-width: 200px; max-height: 200px; border-radius:5px; box-shadow:0 0 13px black;' src='"
+			+ URLtoXML.ImgDickr[this.index].replace("?100", "100")
+			+ "max-width: 200px; max-height: 200px; ' align='left'"
+			+ URLtoXML.pDes[this.index]
 	);
-
+	widgetAPI.putInnerHTML(document.getElementById("play_name"),URLtoXML.pName[b]);
 	Main.ListTop();// смещение списка по достижению пределов
 };
 
@@ -481,3 +592,4 @@ Main.toggleMode = function() {
 		break;
 	}
 };
+
