@@ -11,7 +11,7 @@ ex_ua 0.9.5.4: http://yadi.sk/d/CUTWS-a74-33C
 
 ex_ua 0.9.4: http://yadi.sk/d/b9kF71BM3rUR0
 
--------------------------------
+---------------------------------------------
 
 Changelog EX_UA release 0.9.5.4
 - many changes from stiven76
