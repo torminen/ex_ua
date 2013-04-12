@@ -13,6 +13,7 @@
 <script type="text/javascript" language='javascript' src="$MANAGER_WIDGET/Common/API/CM_AVSetting.js"></script>
 <script type="text/javascript" language='javascript' src="$MANAGER_WIDGET/Common/Util/Include.js"></script>
 
+
 <script language="javascript" type="text/javascript" src="Javascript/Main.js"></script>
 <script language="javascript" type="text/javascript" src="Javascript/Search.js"></script>
 <script language="javascript" type="text/javascript" src="Javascript/URLtoXML.js"></script>
@@ -42,6 +43,7 @@
 
 		<div id="spisok">
 			<div id='janr'>Жанр : &nbsp;&nbsp;&nbsp;&nbsp; Зарубежные фильмы</div>
+			<div id="vidget_ver"><span id="vidget_ver_span"></span></div>
 			<div id="spisok2">
 				<div id='bloc1' class='block'></div>
 				<div id='bloc2' class='block'></div>
@@ -289,7 +291,7 @@
         </div>
         <div class="p_second_line">
             <div id="help_navi_l_player" style="">
-                <div id="screen_size"><div id="navi_button"><img src="images/buttons/psize.png"><img src="images/buttons/ud.png"></img></img></div><span id="navi_helpertext"></span></div>
+                <div id="screen_size"><div id="navi_button"><img src="images/buttons/psize.png"><img src="images/buttons/ud.png"></div><span id="navi_helpertext"></span></div>
             </div>
         </div>
         <div class="p_third_line">
@@ -300,7 +302,7 @@
 				<div id="but_ff"><img src="images/buttons/ff.png"></img></div><span id="navi_helpertext"></span>
 				<div id="but_psize"><img src="images/buttons/psize.png"></img></div><span id="navi_helpertext"></span>
 				<div id="but_info"><img src="images/buttons/info.png"></img></div><span id="navi_helpertext"></span>
-                <div id="navi_button"></img></div><span id="navi_helpertext"></span>
+                <div id="navi_button"></div><span id="navi_helpertext"></span>
             </div> 
         </div>
         <div  class="p_info_line" >
@@ -309,7 +311,11 @@
             </div>
         </div>      
     </div>
-        <div id="statusbar" style="display:none;"><span id="status"></span></div>
+        <div id="statusvol" style="display:none;"><span id="status_vol_span"></span></div>
+        
+        <div id="statusline" style="display:none;"><span id="status_line_span"></span></div>
+        
+        
         <div id="statusbar1" style="display:none;"><span id="status1"></span></div>
         <div id="selectbox" style="display:none;"></div>
 </body>

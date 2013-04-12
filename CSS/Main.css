@@ -22,7 +22,42 @@
 	font-family: Century_Gothic;
 	z-index:100;
 }
+#statusvol
+{
+	position: absolute;
+	top: 450px;
+	left: 0px;
+	font-size: 20px;
+	text-align:center;
+	color: white;
+	width: 100%;
+	background-image: url("../images/helpbar.png");
+	z-index:100;
+}
+#vidget_ver {
+	position: absolute;
+	left: 50%;
+	width: 50%;
+	top: 60px;
+	height: 25px;
+	color: #c0c0c0;
+	font-size: 15px;
+	text-align:right;
+}
 
+
+#statusline
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-size: 20px;
+	text-align:center;
+	color: white;
+	width: 100%;
+	background-image: url("../images/helpbar.png");
+	z-index:100;
+}
 #top {
 	position: absolute;
 	top: 0px;
@@ -207,6 +242,7 @@
     color : #FFFFFF;
 	margin-left:2%;
 	float:left;font-size:16px;
+	
 }
 
 #player .p_firts_line

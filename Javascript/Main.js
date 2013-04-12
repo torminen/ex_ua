@@ -29,6 +29,11 @@ var Main = {
 	serieC : false,
 	serieE : false,
 	serieB : false,
+	serieText:"", // текстовая версия ТВ
+	version_vidget : "0.9.5.4",
+	mute : 0,
+    NMUTE : 0,
+    YMUTE : 1
 };
 
 var b = 1; // индекс активной строки
@@ -42,15 +47,18 @@ Main.onLoad = function() {
 	this.TVPlugin = document.getElementById("pluginTV");
 	this.hardware_type = this.TVPlugin.GetProductType();
 	this.hardware = this.TVPlugin.GetProductCode(1);
+	this.hardware_char=this.hardware.substring(4,5);
+	alert (this.hardware );
+	
 	if(this.hardware.indexOf("C")>0){
-		Main.serieC = true;		
+		Main.serieC = true; Main.serieText ="C-series";		
 	} else {
 	if (this.hardware.indexOf("E") > 1 || (this.hardware.indexOf("C") < 0 && this.hardware.indexOf("D") < 0)) {
-		Main.serieE = true;
+		Main.serieE = true;Main.serieText ="E-series";
 		};
 	};	
 	if (this.hardware.indexOf("B") > 1) {
-		Main.serieB = true;
+		Main.serieB = true;Main.serieText ="B-series";
 		}			
 		
 	if (Player.init() && Audio.init() && Display.init()) {
@@ -61,7 +69,7 @@ Main.onLoad = function() {
 		document.getElementById("plain").style.display = "none";
 		document.getElementById("search").style.display = "none";
 		document.getElementById("black").style.display = "none";
-
+		widgetAPI.putInnerHTML(document.getElementById("vidget_ver_span"),"Model:"+this.hardware+"   Type:"+this.hardware_char+"   v."+Main.version_vidget);
 		// адрес запроса
 		this.sURL = this.janrURL + '?v=1,0&p=' + this.string + '&per=18';
 
@@ -88,16 +96,21 @@ Main.onShowEventTVKey = function() {
 	pluginAPI.unregistKey(tvKey.KEY_MUTE);
 	pluginAPI.setOffScreenSaver();
 };
-
 Main.onUnload = function() {
 	Player.deinit();
 	URLtoXML.deinit();
 };
-
 Main.keyDown = function() {
 	var keyCode = event.keyCode;
 	switch (keyCode) {
+	case tvKey.KEY_EXIT:
+		//alert("KEY_EXIT");
+		widgetAPI.blockNavigation(event); //отменяем заводскую реакцию на событие.
+		widgetAPI.sendReturnEvent();// <- выполняем выход из виджета ВОЗВРАТОМ в смартхаб - вместо закрытия смартхаба по widgetAPI.sendExitEvent();
+		break;
 	case 75: // поиск
+		if (this.playlist == 0){
+			/// если мы 0-м уровне - поиск работает.
 		if (this.POISK == 0) {
 			document.getElementById("title").style.display = "none";
 			document.getElementById("janr").style.display = "none";
@@ -108,8 +121,8 @@ Main.keyDown = function() {
 			document.getElementById("black").style.display = "block";
 
 			Search.Input();
-		}
-
+			}
+		};
 		break;
 	case tvKey.KEY_1:
 	Player.PercentJump(1);
@@ -175,6 +188,7 @@ Main.keyDown = function() {
 				: 1;
 
 		Player.setScreenMode(this.currentFSMode);
+		Display.statusLine ("Режим "+this.currentFSMode);
 		break;
 		
 	case tvKey.KEY_ASPECT: // переключение типа полноэкранного режима (циклично от
@@ -186,6 +200,7 @@ Main.keyDown = function() {
 				: 1;
 
 		Player.setScreenMode(this.currentFSMode);
+		Display.statusLine ("Режим "+this.currentFSMode);
 		break;
 
 	case tvKey.KEY_STOP:
@@ -197,6 +212,7 @@ Main.keyDown = function() {
 		break;
 
 	case tvKey.KEY_PLAY:
+		alert(url);
 		Main.handlePlayKey(url);
 		this.sta = 1; // играть c начала
 		break;
@@ -213,7 +229,14 @@ Main.keyDown = function() {
 
 	case tvKey.KEY_RETURN:
 	case tvKey.KEY_PANEL_RETURN:
-		widgetAPI.blockNavigation(event); // блокируем по умолчанию RETURN
+		widgetAPI.blockNavigation(event); // блокируем по умолчанию RETURN 
+		if ((Player.getState() == Player.PLAYING || Player.getState() == Player.PAUSED) && this.mode == this.FULLSCREEN)
+		//если смотрим фильм - в любом раскладе играет или пауза - выходим. экономим на нажатии кнопки СТОП
+		//зачем надо проверять режим проигрывания - на понял - по идее хватает проверки полноэкранности, но сделал  по аналогии 
+		{
+			Player.stopVideo();
+			break;
+		};////////
 		this.playlist = 0;
 		document.getElementById("spisok").style.display = "block";
 		document.getElementById("playlist").style.display = "none";
@@ -227,6 +250,12 @@ Main.keyDown = function() {
 		break;
 
 	case tvKey.KEY_LEFT: // лево
+		if (Player.getState() == Player.PLAYING && this.mode == this.FULLSCREEN)
+		{
+			Player.skipBackwardVideoFast();
+			break;
+		}
+		else{
 		if (this.playlist == 0) {
 			if (this.index == 1) {
 				this.index = Main.NewString(0, -1) ? 18 : 1;
@@ -234,11 +263,18 @@ Main.keyDown = function() {
 			}
 			else {
 				Main.ActivString(-1);
+				}
 			}
+			break;
 		}
-		break;
 
 	case tvKey.KEY_RIGHT: // право
+		if (Player.getState() == Player.PLAYING && this.mode == this.FULLSCREEN) {
+			Player.skipForwardVideoFast();
+			break;
+		}
+		else
+		{
 		if (this.playlist == 0) {
 			if (this.index == 18) {
 				this.index = 1;
@@ -247,9 +283,10 @@ Main.keyDown = function() {
 			}
 			else {
 				Main.ActivString(1);
+				}
 			}
+			break;
 		}
-		break;
 
 	case tvKey.KEY_UP:
 		if (Player.getState() == Player.PLAYING && this.mode == this.FULLSCREEN) {
@@ -290,6 +327,7 @@ Main.keyDown = function() {
 
 	case tvKey.KEY_ENTER:
 	case tvKey.KEY_PANEL_ENTER:
+
 		if (this.playlist == 0) {
 			this.playlist = 1;
 			Main.handleActiv();
@@ -329,14 +367,21 @@ Main.keyDown = function() {
 
 	case tvKey.KEY_VOL_UP:
 	case tvKey.KEY_PANEL_VOL_UP: // громкость +
+		if (this.mute == this.YMUTE) Main.noMuteMode();
 		Audio.setRelativeVolume(0);
 		break;
 
 	case tvKey.KEY_VOL_DOWN:
 	case tvKey.KEY_PANEL_VOL_DOWN: // громкость -
+		if (this.mute == this.YMUTE) Main.noMuteMode();
 		Audio.setRelativeVolume(1);
 		break;
-
+	
+	case tvKey.KEY_MUTE:
+        alert("MUTE");
+        this.muteMode();
+        break;
+	
 	default:
 		alert("Unhandled key");
 		break;
@@ -351,7 +396,6 @@ Main.keyDown = function() {
 	}
 	Main.ListTop();
 };
-
 // перемещение поиска по страницам
 Main.NewString = function(per, a) {
 	this.search = "?";
@@ -494,7 +538,6 @@ Main.handleActiv = function() {
 	document.getElementById("str" + b).style.color = "#3399FF"; // активная
 	// строка
 };
-
 Main.selectNextVideo = function() {
 	if (b == 200) {
 		b = 199;
@@ -509,8 +552,7 @@ Main.selectNextVideo = function() {
 	// пасивный
 	this.sta = 1;// играть c начала
 };
-
-Main.selectUpVideo = function() {
+Main.selectUpVideo = function(){
 	if (b == 1) {
 		b = 2;
 	} // предел min
@@ -525,7 +567,8 @@ Main.selectUpVideo = function() {
 	this.sta = 1;// играть c начала
 };
 
-Main.handlePlayKey = function(url) {
+Main.handlePlayKey = function(url)
+{
 	if (this.sta == 1) {
 		Player.stopVideo();
 		url = URLtoXML.pUrlSt[b];
@@ -590,6 +633,43 @@ Main.toggleMode = function() {
 
 	default:
 		break;
-	}
+	};
+};
+//////////////////////// modify MUTE mode
+Main.setMuteMode = function()
+	{
+	    if (this.mute != this.YMUTE)
+	    {
+	    	Audio.plugin.SetSystemMute(true);
+	    	this.mute = this.YMUTE;
+	    	Display.statusMute();
+	    }
+};
+Main.noMuteMode = function()
+	{
+	    if (this.mute != this.NMUTE)
+	    {
+	        Audio.plugin.SetSystemMute(false); 
+	        this.mute = this.NMUTE;
+	        Display.setVolume( Audio.getVolume() );
+
+	    }
+};
+
+Main.muteMode = function(){
+	switch (this.mute)
+	{
+		case this.NMUTE:
+			this.setMuteMode();
+	        break;
+	            
+	        case this.YMUTE:
+	            this.noMuteMode();
+	            break;
+	            
+	        default:
+	            alert("ERROR: unexpected mode in muteMode");
+	            break;
+	    }
 };
 

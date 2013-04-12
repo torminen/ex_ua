@@ -72,7 +72,7 @@ Player.setScreenMode = function(modesize) {
 	if (w <= 0 || h <= 0)
 		return -1;
 
-	var wCorr = w < h * 4 / 3 ? h * 4 / 3 : w;
+	var wCorr = w < (h * 4 / 3) ? h * 4 / 3 : w;
 	var crop = {
 		x : 0,
 		y : 0,
@@ -165,7 +165,7 @@ Player.setScreenMode = function(modesize) {
 
 Player.playVideo = function() // играть
 {
-	// alert(url);
+	//alert(url);
 	this.state = this.PLAYING;
 	// this.setWindow();
 	this.plugin.Play(url);

@@ -1,7 +1,11 @@
 ﻿var Display =
 {
-            status_timer : null,
-            statusDiv : null,
+            status_vol_timer : null,
+            status_line_timer : null,
+            
+            statusVolSpan : null,
+            statusLineSpan : null,
+            
             status1_timer : null,
             status1Div : null,
             index : 1, 
@@ -16,9 +20,10 @@ Display.init = function()
 {
     var success = true;
      this.status1Div = document.getElementById("status1");
-     this.statusDiv = document.getElementById("status");
+     this.statusVolSpan = document.getElementById("status_vol_span");
+     this.statusLineSpan = document.getElementById("status_line_span");
 
-    if (!this.statusDiv&&!this.status1Div)
+    if (!this.statusVolSpan&&!this.status1Div&&!this.statusLineSpan)
     {
         success = false;
     }
@@ -26,12 +31,55 @@ Display.init = function()
     return success;
 };
   
+/////////////////////// STATUS LINE///////////////////////////////////
 
+Display.statusLine = function(param_string)
+{   
+	document.getElementById("statusline").style.display="block";
+    widgetAPI.putInnerHTML(this.statusLineSpan, param_string);
+	clearTimeout(this.status_line_timer);
+	Display.statusLineTimer();
+};
+Display.statusLineTimer = function()
+{
+	this.status_timer=setTimeout("Display.hideStatusLine()",2000);
+};
+
+Display.hideStatusLine = function()
+{
+	document.getElementById("statusline").style.display="none";
+};
+/////////////////////// STATUS LINE ///////////////////////////////////
+
+/////////////////////// STATUS VOLUME /////////////////////////////////
 Display.setVolume = function()
 {
 	var volume = Audio.getVolume();
 	Display.status("<span>ГРОМКОСТЬ " + volume + "</span>");
 };
+
+Display.statusMute = function()
+{   
+	document.getElementById("statusvol").style.display="block";
+    widgetAPI.putInnerHTML(this.statusVolSpan, "<span>ГРОМКОСТЬ ВЫКЛ</span>");
+	clearTimeout(this.status_vol_timer);
+};
+Display.status = function(status)
+{   
+	document.getElementById("statusvol").style.display="block";
+    widgetAPI.putInnerHTML(this.statusVolSpan, status);
+	clearTimeout(this.status_timer);
+	Display.statusVolTimer();
+};
+Display.hideStatusVol = function()
+{
+	document.getElementById("statusvol").style.display="none";
+};
+Display.statusVolTimer = function()
+{
+	this.status_vol_timer=setTimeout("Display.hideStatusVol()",2000);
+};
+/////////////////////// STATUS VOLUME /////////////////////////////////
 
 Display.hidemenu = function()
 {
@@ -93,46 +141,25 @@ Display.infobarTimer = function()
 {
 	this.infobar_timer=setTimeout("Display.hideplayer()",5000);
 };
-Display.status = function(status)
-{             document.getElementById("version").style.display="none";
-	document.getElementById("statusbar").style.display="block";
-              widgetAPI.putInnerHTML(this.statusDiv, status);
-	clearTimeout(this.status_timer);
-	Display.statusTimer();
-};
+
+
 
 
 Display.status1 = function(status1)
 {
 	document.getElementById("statusbar1").style.display="block";
-              widgetAPI.putInnerHTML(this.status1Div, status1);
+    widgetAPI.putInnerHTML(this.status1Div, status1);
 	clearTimeout(this.status1_timer);
 	Display.status1Timer();
 };
 
-Display.hidestatus = function()
-{
-	document.getElementById("statusbar").style.display="none";
-	document.getElementById("version").style.display="";
-	
-	if (Audio.mute==0 && Player.state != Player.STOPPED)
-		{
-                            Audio.plugin.SetSystemMute(true);
-		document.getElementById("statusbar").style.display="block";
-		widgetAPI.putInnerHTML(Display.statusDiv, 'Звук выключен !');
-                            }
-	
-};
 
 Display.hidestatus1 = function()
 {
 	document.getElementById("statusbar1").style.display="none";
 };
 
-Display.statusTimer = function()
-{
-	this.status_timer=setTimeout("Display.hidestatus()",2000);
-};
+
 
 Display.status1Timer = function()
 {
@@ -204,7 +231,6 @@ Display.setTime = function(time)
 	
 	document.getElementById("timeInfo").innerHTML=timeHTML;
 };
-
 Display.Timeout = function() {
 	Main.selectNextVideo(); // переключение на след. трек
 	url = URLtoXML.pUrlSt[b];
